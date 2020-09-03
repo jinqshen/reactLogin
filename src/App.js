@@ -1,25 +1,23 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { useAuth, AuthProvider } from './auth/authProvider';
+const Home = React.lazy(() => import('./component/Home'));
+const Login = React.lazy(() => import('./component/Login'));
+
+var a = 0;
 
 function App() {
+
+  const { user } = useAuth();
+
+  console.log(a++);
+  console.log(user);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+         <Suspense fallback={<></>}>
+          { user ? <Home /> : <Login />}
+        </Suspense>
   );
 }
 
